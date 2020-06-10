@@ -1,0 +1,72 @@
+<!-- might delete -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- BLOCK COMMENT-->
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="../styles/main.css">
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <title>G3TAWAY</title>
+</head>
+
+<body>
+    <header>
+        <img id="headerImage" src="../images/plane.png" alt="Picture of a Plane" class="responsive">
+            <hgroup>
+				<h1 id="header">G3TAWAY</h1>
+            </hgroup>
+    </header>
+
+    <div class="navbar" id="menu">
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a class="displaying" href="Pages/Search.html">Search</a></li>
+			<li><a href="/s4/">Activities</a>
+               <ul>
+                    <li><a href="sec3">Nature</a></li>
+                    <li><a href="sec4">Museums</a></li>
+                    <li><a href="sec4">Shows</a></li>
+                    <li><a href="sec4">History</a></li>
+                    <li><a href="sec4">Active</a></li>
+               </ul>
+            </li>
+            <li><a href="../email.html">Subscribe</a></li>
+        </ul>
+    </div>
+
+	<div class="Searching">
+		<!-- <form id="userInput" action="Search.html">
+	   		<h1>Please enter the following information.</h1>
+			<p class="required">From: <input type="text" name="origin" required autofocus placeholder="United States"></p>
+			<p class="required">To: <input type="text" name="destination" required placeholder="Canada"></p>
+   		</form> -->
+
+
+		<form action="http://localhost:3000/flights">
+	    	<button >get flights</button>
+		</form>
+
+
+		<table class="table table-bordered" id="tabletest" style="display:none">
+			<tr>
+				<td>Flight Info</td>
+			</tr>
+		</table>
+		<!-- <script src="../Scripts/jsonParse.js"></script> -->
+	</div>
+
+	<h1 id="apiTest"></h1>
+
+	<p id="apiTest2"></p>
+
+
+
+	<footer>
+		<p id="copyright">&copy;2019 Chris-Emio Raymond</p>
+	</footer>
+
+
+</body>
+</html>

@@ -1,0 +1,418 @@
+* {font-family: sans-serif}
+
+   html
+   {
+       background-color: #00BFFF;
+       -webkit-font-smoothing: antialiased;
+       -moz-osx-font-smoothing: grayscale;
+       font-family: 'Dosis', sans-serif;
+   }
+
+   a
+   {
+       color: #00BFFF;
+       font-weight: bold;
+
+   }
+
+   a:hover, a:focus
+   {
+       color: green;
+   }
+
+   li
+   {
+       padding-bottom: .5em;
+       padding-left: .25em;
+   }
+
+   aside ul
+   {
+       list-style: none;
+   }
+
+   footer
+   {
+       clear: both;
+   }
+
+   img
+   {
+       width:auto;
+       height: 4.6em;
+       float: left;
+       margin-right: 2em;
+       margin-bottom: -2em;
+   }
+
+
+   body
+   {
+       font-size: 100%;
+       width: 800px;
+       background-color: white;
+       margin: 15px auto;
+       padding: 15px 1.5em;
+       border: 1px solid black;
+       border-radius: 50px;
+       box-shadow: 20px 20px;
+   }
+
+   header
+   {
+       background-image: linear-gradient(45deg, white 0%, #00BFFF 35%, black 105%);
+       font-size: 83%;
+       border-bottom: 5px solid black;
+       margin-bottom: 0;
+   }
+
+   header h2
+   {
+       margin-left: 4.2em;
+   }
+
+   #header
+   {
+       font-size: 250%;
+
+   }
+
+   #firstChild:first-child::first-letter
+   {
+       font-size: 300%;
+   }
+
+   h1, h2,h3
+   {
+       font-size: 125%;
+   }
+
+   .card h1{
+       padding: 1.5rem 19rem;
+       background-image: linear-gradient(120deg, #fbc2eb 0%, #00BFFF 100%);
+       margin: 0 0 2rem 0;
+       font-size: 1.5rem;
+       color: white;
+       display: flex;
+       flex-wrap: wrap;
+   }
+
+   .card p{
+       text-align: center;
+       display: inline-block;
+       font-style: oblique;
+       margin-top: -1em;
+
+   }
+
+   .card2 h1{
+       padding: 1.5rem 19rem;
+       background-image: linear-gradient(120deg, #84fab0 0%, #fecfef 100%);
+       margin: 0 0 2rem 0;
+       font-size: 1.5rem;
+       color: black;
+       display: flex;
+       flex-wrap: wrap;
+   }
+
+   .card2 p{
+       text-align: center;
+       display: inline-block;
+       font-style: oblique;
+       margin-top: -1em;
+       margin-left: 6em;
+
+   }
+
+
+   /*One element by ID*/
+   #copyright
+   {
+       border-top: 5px solid black;
+       padding-top: .15em;
+       padding-bottom: .15em;
+       background-image: linear-gradient(45deg, black 0%, #00BFFF 45%, white 100%);
+       font-size: 80%;
+       text-align: center;
+   }
+
+   .slicknav_menu
+   {
+       display:none;
+   }
+
+   .navbar
+   {
+       width: 100%;
+       background: black;
+
+   }
+   .navbar ul
+   {
+       list-style: none;
+       text-align: center;
+       display: inline;
+       margin: 0;
+       padding: 0;
+
+   }
+
+   .navbar ul li
+   {
+       display: inline-block;
+       position: relative;
+       padding: 25px 20px;
+   }
+
+   .navbar .displaying
+   {
+       color: #00BFFF;
+   }
+
+   .navbar ul li a
+   {
+       text-decoration: none;
+       font-weight: normal;
+       padding: 35px 45px;
+       color: white;
+       text-align: center;
+   }
+
+   .navbar ul li ul
+   {
+       padding: 0px 40px;
+       position: absolute;
+       top: 140px;
+       left:0;
+       width: 150px;
+       display: none;
+       visibility: hidden;
+
+   }
+
+   .navbar ul li ul li
+   {
+       background: black;
+       display: block;
+       padding:  5px;
+
+
+   }
+   .navbar ul li ul li a
+   {
+
+       padding:  10px;
+       left: auto;
+       top: auto;
+
+
+
+   }
+
+   .navbar ul li ul li:hover
+   {
+       background: gray;
+   }
+
+   .navbar ul li:hover > ul
+   {
+       display: block;
+       opacity: 1;
+       visibility: visible;
+       top: 68px;
+   }
+
+
+
+   #homeForm {border: 3px solid #f1f1f1;}
+
+   #usernameHome {
+       width: 100%;
+       padding: 12px 20px;
+       margin: 8px 0;
+       display: inline-block;
+       border: 1px solid #ccc;
+       box-sizing: border-box;
+   }
+
+   #passwordHome {
+       width: 100%;
+       padding: 12px 20px;
+       margin: 8px 0;
+       display: inline-block;
+       border: 1px solid #ccc;
+       box-sizing: border-box;
+   }
+
+   #homeSubmitButton {
+     background-color: #00BFFF;
+     color: white;
+     padding: 14px 20px;
+     margin: 8px 0;
+     border: none;
+     cursor: pointer;
+     width: 100%;
+   }
+
+   #googleSubmitButton {
+     background-color: #f44336;
+     color: white;
+     padding: 14px 20px;
+     margin: 8px 0;
+     border: none;
+     cursor: pointer;
+     width: 100%;
+   }
+
+   #homeCancelButton {
+     color: white;
+     margin: 8px 0;
+     border: none;
+     cursor: pointer;
+   }
+
+   button:hover {
+     opacity: 0.8;
+   }
+
+   .cancelbtn {
+     width: auto;
+     padding: 10px 18px;
+     background-color: #f44336;
+   }
+
+   .imgcontainer {
+     text-align: center;
+     margin: 24px 0 100px 0;
+   }
+
+    .imgcontainer2 {
+        text-align: center;
+        margin-top: 1em;
+        display: inline-block;
+        position: relative;
+    }
+
+    .accountInfo
+    {
+        margin-top: 5em;
+        position: relative;
+    }
+
+   img.avatar {
+       padding-left: 24px;
+       padding-right: 24px;
+       border-radius: 50%;
+   }
+
+   .loginContainer {
+     padding: 16px;
+     display: flex;
+     flex-wrap: wrap;
+   }
+
+
+
+
+
+   .card {
+     margin: 1rem;
+     background: white;
+     box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+     border-radius: 12px;
+     overflow: hidden;
+     transition: all .2s linear;
+   }
+
+   .card2 {
+     margin: 1rem;
+     background: white;
+     box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+     border-radius: 12px;
+     overflow: hidden;
+     transition: all .2s linear;
+   }
+
+
+   .card:nth-child(2n) h1 {
+     background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+   }
+
+   .card:nth-child(4n) h1 {
+     background-image: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%);
+   }
+
+   .card:nth-child(5n) h1 {
+     background-image: linear-gradient(120deg, #ffc3a0 0%, #ffafbd 100%);
+   }
+
+   span.psw {
+     float: right;
+     padding-top: 16px;
+   }
+
+   /* Change styles for span and cancel button on extra small screens */
+   @media screen and (max-width: 300px) {
+     span.psw {
+        display: block;
+        float: none;
+     }
+     .cancelbtn {
+        width: 100%;
+     }
+   }
+
+   #googleLogin
+   {
+       padding: 1em 1em 1em 1em;
+   }
+
+
+    #goButton
+    {
+        display: none;
+    }
+
+    #resultCards
+    {
+        display: none;
+    }
+
+
+
+   a.button {
+       -webkit-appearance: button;
+       -moz-appearance: button;
+       appearance: button;
+
+       text-decoration: none;
+       color: initial;
+   }
+
+
+
+
+   .button{
+        display:inline-block;
+        padding:0.3em 1.2em;
+        margin:0 0.1em 0.1em 0;
+        border:0.16em solid rgba(255,255,255,0);
+        border-radius:2em;
+        box-sizing: border-box;
+        text-decoration:none;
+        font-family:'Roboto',sans-serif;
+        font-weight:300;
+        color:#FFFFFF;
+        text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+        text-align:center;
+        transition: all 0.2s;
+        width: 90px;
+        height: 40px;
+        margin-right: 2.5em;
+        margin-left: 3.5em;
+
+
+   }
+   .button:hover{
+        border-color: rgba(0,0,0,1);
+    }

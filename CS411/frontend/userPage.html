@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- BLOCK COMMENT-->
+<head>
+	<meta charset="utf-8" />
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<link rel="stylesheet" href="styles/main.css">
+    <title>G3TAWAY</title>
+</head>
+
+<body>
+    <header>
+        <img id="headerImage" src="images/plane.png" alt="Picture of a Plane" class="responsive">
+            <hgroup>
+				<h1 id="header">G3TAWAY</h1>
+            </hgroup>
+    </header>
+
+    <div class="navbar" id="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+			<li><a class="displaying" href="userPage.html">New Trip</a></li>
+            <li><a href="go.html">Flights</a></li>
+			<li><a href="email.html">Account</a></li>
+        </ul>
+    </div>
+
+	<div class="card">
+		<h1>Our Product</h1>
+		<p>
+			Want to go on a fun getaway, but don't know where to go?
+			You do the easy part and tell us what you want to do and we'll tell you which place around the world has what you're looking for.
+			We'll even provide you with current flight and hotel fares that you could use to get away right now if you wanted to!
+		</p>
+	</div>
+
+
+	<div class="activityButtons">
+		<button id="nature" class="button" style="background-color:#f14e4e">Nature</button>
+		<button id="museums" class="button" style="background-color:#f1bb4e">Museums</button>
+		<button id="shows" class="button" style="background-color:#84f14e">Entertainment</button>
+		<button id="history" class="button" style="background-color:#4ef18f">History</button>
+		<button id="active" class="button" style="background-color:#4e9af1">Active</button>
+	</div>
+	<script src="../Scripts/activities.js"></script>
+
+	<div id="resultCards" class="card2">
+		<h1 id="Header"></h1>
+
+		<p id="Info"></p>
+	</div>
+
+	<button id="goButton" onclick="location.href='go.html'" type="button" name="button" class="button" style="background-color:#9a4ef1" value="LHR">GO!</button>
+
+
+
+
+    <footer>
+        <p id="copyright">&copy;2019 Chris-Emio Raymond</p>
+    </footer>
+
+
+</body>
+</html>
