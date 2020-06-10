@@ -1,0 +1,211 @@
+    * {font-family: sans-serif}
+
+    html
+    {
+        background-image: url(../images/bats.gif);
+    }
+
+    a
+    {
+        color: orange;
+        font-weight: bold;
+
+    }
+
+    a:hover, a:focus
+    {
+        color: green;
+    }
+
+    li
+    {
+        padding-bottom: .5em;
+        padding-left: .25em;
+    }
+
+    aside ul
+    {
+        list-style: none;
+    }
+
+
+    #sidebarA
+    {
+        margin-top: 1em;
+        width: 20%;
+        height: 35em; /* to give the sidebar some height for its border */
+        float: left;
+        margin-left: -1em;
+        padding-right: 1em;
+
+    }
+
+    #sidebarA ul li a
+    {
+        display: block;
+        border: .1em solid #000;
+        margin-left: -1em;
+        background: orange;
+
+    }
+
+
+    #saElem
+    {
+        text-decoration: none;
+        padding: .25em .25em .25em .5em;
+        font-size: 125%;
+        color: black;
+
+    }
+
+    #sidebarB
+    {
+        height: 7em;
+
+    }
+
+    #sidebarB ul li a
+    {
+        color: black;
+        text-decoration: none;
+        font-size: 1.5em;
+    }
+
+    footer
+    {
+        clear: both;
+    }
+
+    @media only screen and (min-width: 40px)
+    {
+        img
+        {
+            width: 8em;
+            height: auto;
+            float: left;
+            margin-right: 2em;
+            margin-bottom: -2em;
+        }
+    }
+
+    body
+    {
+        font-size: 100%;
+        width: 50em; /*800px is 50 em */
+        background-color: white;
+        margin: 1em auto;
+        padding: 1em 1.5em;
+        border: 0.1em solid black;
+        border-radius: 3em;
+        box-shadow: 1em 1em;
+    }
+
+    header
+    {
+        background-image: linear-gradient(45deg, white 15%, orange 35%, black 105%);
+        font-size: 83%;
+        border-bottom: .5em solid black;
+        margin-bottom: 0;
+    }
+
+    #header
+    {
+        font-size: 250%;
+
+    }
+
+    #firstChild:first-child::first-letter
+    {
+        font-size: 300%;
+    }
+
+    h1, h2,h3
+    {
+        font-size: 125%;
+    }
+
+    /*One element by ID*/
+    #copyright
+    {
+        border-top: .5em solid black;
+        padding-top: .15em;
+        padding-bottom: .15em;
+        background-image: linear-gradient(45deg, black 0%, orange 45%, white 100%);
+        font-size: 80%;
+        text-align: center;
+    }
+
+    .slicknav_menu
+    {
+        display:none;
+    }
+
+    .navbar
+    {
+        width: 100%;
+        background: black;
+
+    }
+    .navbar ul
+    {
+        list-style: none;
+        text-align: center;
+        display: inline;
+        margin: 0;
+        padding: 0;
+
+    }
+
+    .navbar ul li
+    {
+        display: inline-block;
+        position: relative;
+        padding: 1.6em 1.7em;
+    }
+
+    .navbar .displaying
+    {
+        color: orange;
+    }
+
+    .navbar ul li a
+    {
+        text-decoration: none;
+        font-weight: normal;
+        padding: 1em 1em;
+        color: white;
+    }
+
+    .navbar ul li ul
+    {
+        padding: 0em;
+        position: absolute;
+        top: 9em;
+        left:0em;
+        width: 9em;
+        display: none;
+        visibility: hidden;
+    }
+
+    .navbar ul li ul li
+    {
+        background: black;
+        display: block;
+        padding: .5em;
+        left: .8em;
+
+    }
+
+    .navbar ul li ul li:hover
+    {
+        background: gray;
+    }
+
+    .navbar ul li:hover > ul
+    {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        top: 4.25em;
+    }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Converter</title>
+    <script>
+        var far, cel;
+
+        while(true){
+            far = prompt("Enter temperature in Fahrenheit : ", "Enter 999 to end");
+            if(far==999)
+               break;
+            if (far < -100 || far > 212)
+                alert("The acceptable range is from -100 to +212.\nYou have entered "+far);
+            else{
+                cel=(far-32)*5/9;
+                alert("Temperature in Fahrenheit : " + far + "\nTemperature in Celsius : " + cel);
+                }
+        }
+    </script>
+</head>
+
+<body>
+    <main>
+        <h1>Thank you for using the temperature converter</h1>
+    </main>
+</body>
+</html>

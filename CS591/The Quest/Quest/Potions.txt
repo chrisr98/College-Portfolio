@@ -1,0 +1,7 @@
+Name/cost/required level/attribute increase
+Hp  250     1   100
+Strength 200     1   75
+Mana    350     2   100
+Dexterity     500     4   65  
+Defense   850     5   100  
+Agility        1000    8   150

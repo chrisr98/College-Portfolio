@@ -1,0 +1,5 @@
+Format: "Name price"
+AAPL 200.00
+NFLX 425.00
+BILI 27.00
+LYFT 26.00NEW 500.0

@@ -1,0 +1,5 @@
+Name/mana/strength/agility/dexterity/starting money/starting experience
+Gaerdal_Ironhand    100     12000     500     600     1354    8
+Sehanine_Monnbow    600     12000     800     500     2500    8
+Muamman_Duathall    300     12000     500     750     2546    8
+Flandal_Steelskin   200     12000     650     700     2500    8

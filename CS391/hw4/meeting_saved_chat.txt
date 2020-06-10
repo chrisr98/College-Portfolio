@@ -1,0 +1,144 @@
+11:40:24	 From Andrew Wood : that is correct
+11:40:49	 From James Bishop : Andrew: has multiple titans
+11:40:53	 From James Bishop : Also andrew: 5 mbps down
+11:41:28	 From Andrew Wood : use P.val for the value of the parameter, and P.grad for the gradient
+11:41:31	 From Andrew Wood : keep that
+11:41:40	 From Andrew Wood : to help with shape errors
+11:41:50	 From Andrew Wood : I changed params to the Parameter class
+11:42:11	 From Andrew Wood : so, when you are transferring your old code over
+11:42:27	 From Andrew Wood : when you previously used self.W, self.b, now use self.W.val and self.b.val
+11:42:59	 From Andrew Wood : and at the end of LR.backward, don't return de_dW and de_db anymore
+11:43:04	 From Andrew Wood : it is unnecessary
+11:43:18	 From Andrew Wood : line 198
+11:43:24	 From Andrew Wood : line 200 now
+11:43:28	 From Andrew Wood : make sure to use self.W.val
+11:43:31	 From Andrew Wood : and self.b.val
+11:43:37	 From Andrew Wood : awesome
+11:43:50	 From Andrew Wood : also, change self.af to Sigmoid
+11:43:54	 From Andrew Wood : lol nevermind
+11:44:12	 From Andrew Wood : I wrote you train for you this time
+11:44:14	 From Andrew Wood : dont chang eit
+11:44:26	 From Andrew Wood : run your model
+11:44:30	 From Andrew Wood : lets see if it passes gradient checking
+11:44:32	 From Andrew Wood : it should
+11:44:37	 From Andrew Wood : but lets just do it while im here
+11:44:46	 From Andrew Wood : oop line 366
+11:44:52	 From Andrew Wood : change P.copy() to P.val.copy()
+11:44:57	 From Andrew Wood : 366
+11:45:09	 From Andrew Wood : perfect
+11:45:16	 From Andrew Wood : run that mf
+11:45:41	 From Andrew Wood : oh lmao
+11:45:48	 From Andrew Wood : go back to your code
+11:46:10	 From Andrew Wood : and put the code that computed Sigmoid.backwrd **before** the error checking in Sigmoid.backward
+11:46:31	 From Andrew Wood : line 148
+11:46:38	 From Andrew Wood : dSigmoid_dX **=** ...
+11:46:42	 From Andrew Wood : oh wait
+11:46:43	 From Andrew Wood : hmm
+11:46:51	 From Andrew Wood : it should be good now
+11:47:10	 From Andrew Wood : woooooooooooo
+11:47:15	 From Andrew Wood : ok x that out
+11:47:33	 From Andrew Wood : you should get another one in a bit
+11:47:43	 From Andrew Wood : right
+11:47:45	 From Andrew Wood : it takes a bit for the iris dataset
+11:47:51	 From Andrew Wood : bc pure cpu
+11:47:53	 From Andrew Wood : wooooo
+11:47:58	 From Andrew Wood : x that out
+11:48:05	 From Andrew Wood : lets see your terminal
+11:48:20	 From Andrew Wood : hell yeah!
+11:48:27	 From Andrew Wood : of course
+11:48:31	 From Andrew Wood : good job!
+11:48:41	 From Andrew Wood : not quite
+11:48:47	 From Andrew Wood : now you have to use your model on the dataset
+11:49:01	 From Andrew Wood : take the iris dataset
+11:49:10	 From Andrew Wood : and fill out the rest of the main function
+11:49:21	 From Andrew Wood : to do your training, model selection, model testing, etc.
+11:49:30	 From Andrew Wood : step 1) make the model
+11:49:33	 From Andrew Wood : step 2) make sure it works
+11:49:36	 From Andrew Wood : step 3) use the model
+11:49:42	 From Andrew Wood : you have done step1 and step 2
+11:50:18	 From Andrew Wood : there should be some code that says "step 1) load in data"...
+11:50:26	 From Andrew Wood : show me your main function
+11:50:52	 From Andrew Wood : you will have to change that to use the iris dataset instead of the breast cancer dataset
+11:51:07	 From Andrew Wood : aka change line 335
+11:51:20	 From Andrew Wood : you could go up and modify the loadhw4 function
+11:51:23	 From Andrew Wood : but i digress
+11:51:25	 From Andrew Wood : keep going down
+11:51:33	 From Andrew Wood : see the todo
+11:51:35	 From Andrew Wood : line 371
+11:52:10	 From Andrew Wood : you have to do that TODO, then you have to do step 4) on line 261
+11:52:25	 From Andrew Wood : wait go down
+11:52:27	 From Andrew Wood : wrong line number
+11:52:29	 From Andrew Wood : line 373
+11:52:41	 From Andrew Wood : that just plots your performance on the val data....use it!
+11:52:52	 From Andrew Wood : and then step 6) line 387....how well did you do on test data?
+11:53:35	 From Andrew Wood : what you doing?
+11:53:41	 From Andrew Wood : line 372?
+11:53:56	 From Andrew Wood : m.train will train for a linear number of epochs
+11:54:12	 From Andrew Wood : if you want to evaluate your model after every epoch, pass in a callable m.train 
+11:54:16	 From Andrew Wood : as eval_func
+11:54:25	 From Andrew Wood : no for loop
+11:54:49	 From Andrew Wood : no pass eval_acc as an argument to m.train
+11:55:00	 From Andrew Wood : look at the example in test_model_iris
+11:55:10	 From Andrew Wood : line 312
+11:55:22	 From Andrew Wood : val_func
+11:55:27	 From Andrew Wood : see that argument?
+11:55:41	 From Andrew Wood : if val_func is not None, m.train will run it for you
+11:55:56	 From Andrew Wood : its built into sklearn
+11:56:06	 From Andrew Wood : go up to loadhw4()
+11:56:12	 From Andrew Wood : line 31
+11:56:17	 From Andrew Wood : replace load_breast_cancer(...)
+11:56:32	 From Andrew Wood : there is a func to load the iris data at the imports
+11:56:40	 From Andrew Wood : so go up to top of file
+11:56:49	 From Andrew Wood : exactly
+11:56:55	 From Andrew Wood : perfect
+11:57:15	 From Andrew Wood : almost
+11:57:22	 From Andrew Wood : you dont need to check_grads anymore
+11:57:25	 From Andrew Wood : bc your model works
+11:57:38	 From Andrew Wood : you may want to change max_epochs
+11:57:39	 From Andrew Wood : up to you
+11:57:49	 From Andrew Wood : and wait
+11:57:55	 From Andrew Wood : track_training_error doesnt exist
+11:58:09	 From Andrew Wood : right
+11:58:14	 From Andrew Wood : so last thing
+11:58:18	 From Andrew Wood : eval_acc is an **example**
+11:58:19	 From Andrew Wood : you can use it
+11:58:28	 From Andrew Wood : you had it right earlier
+11:58:33	 From Andrew Wood : pass it as a function pointer
+11:58:42	 From Andrew Wood : you **can** use eval_acc
+11:58:48	 From Andrew Wood : but it measures accuracy
+11:58:53	 From Andrew Wood : is that a good metric for this dataset?
+11:59:07	 From Andrew Wood : how do we know?
+11:59:23	 From Andrew Wood : when might accuracy be bad?
+11:59:47	 From Andrew Wood : lets say you have a binary dataset
+11:59:51	 From Andrew Wood : that is heavily imbalanced
+11:59:57	 From Andrew Wood : like 99% class 0 and 1% class 1
+12:00:13	 From Andrew Wood : what is accuracy if we guess class 0 for every example?
+12:00:31	 From Andrew Wood : what is accuracy?
+12:01:45	 From Andrew Wood : accuracy is 99% if I guess class that makes up 99% of the data
+12:02:00	 From Andrew Wood : bc accuracy == did I guess what the ground truth is?
+12:02:24	 From Andrew Wood : if my data is 99% True and 1% false
+12:02:28	 From Andrew Wood : lets say I have 100 examples
+12:02:37	 From Andrew Wood : then 99 of them are True and 1 is False
+12:02:50	 From Andrew Wood : so, if my model always guesses True, then I will guess 100 Trues
+12:02:51	 From Andrew Wood : right?
+12:03:11	 From Andrew Wood : accuracy = prediction == ground truth
+12:03:17	 From Andrew Wood : so I will get 99 right
+12:03:26	 From Andrew Wood : because 99 of them ARE true and I guessed True
+12:03:36	 From Andrew Wood : and I will get that 1 False wrong (because I guessd true)
+12:03:43	 From Andrew Wood : so my accuracy is 99/100
+12:03:47	 From Andrew Wood : cool
+12:03:54	 From Andrew Wood : but my model is trash!
+12:04:03	 From Andrew Wood : what if that 1 example is really important?
+12:04:18	 From Andrew Wood : like 1 DDOS attack and 99 usual internet usages?
+12:04:27	 From Andrew Wood : and I WANT my model to identify DDOS attacks?
+12:04:40	 From Andrew Wood : the takeaway is if you data is **imbalanced** accuracy is not good
+12:04:52	 From Andrew Wood : so the question we need an answer to is, is the iris dataset imbalanced?
+12:04:59	 From Andrew Wood : this is your justification for using accuracy or nt
+12:05:01	 From Andrew Wood : *not
+12:05:24	 From Andrew Wood : what is the distribution of class labels?
+12:05:52	 From Andrew Wood : show me the class distribution for the training set, test set
+12:05:55	 From Andrew Wood : you have it loaded in ram
+12:05:58	 From Andrew Wood : including ground truth
+12:06:14	 From Andrew Wood : aka you have Y_train, Y_val, and Y_test
+12:06:27	 From Andrew Wood : if you convert them to class labels, you can plot their frequencies, etc.
+12:06:58	 From Andrew Wood : stop sharing

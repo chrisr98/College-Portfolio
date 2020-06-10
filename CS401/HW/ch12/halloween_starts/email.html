@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- BLOCK COMMENT-->
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="styles/email.css">
+	<link rel="icon" href="images/favicon.ico" type="image/png">
+    <title>Halloween Store</title>
+</head>
+
+
+<body>
+    <header>
+		<!-- Image -->
+        <img usemap="#pumkinHome" id="headerImage" src="images/pumpkin.gif" alt="Picture of a Pumpkin" class="responsive">
+		<!-- Map -->
+		<map name="pumkinHome">
+			<area shape="circle" coords="50,50,50" href="index.html" target="_blank" alt="Home Page">
+		</map>
+            <hgroup>
+				<h1 id="header">Chris-Emio's Halloween Store.</h1>
+                <h2 style="font-size: 200%;">Unleash your inner Monster!!!</h2>
+            </hgroup>
+    </header>
+
+	<div class="navbar" id="menu">
+		<ul>
+			<li><a href="index.html">Home</a></li>
+			<li><a href="products/productList.html">Product List</a></li>
+			<li><a href="personal.html">Personal</a></li>
+			<li><a href="/s4/">Decorations</a>
+			   <ul>
+				   <li><a href="sec1">Outdoor</a></li>
+				   <li><a href="sec2">Indoor</a></li>
+				   <li><a href="sec3">Table</a></li>
+				   <li><a href="sec4">Treats</a></li>
+			   </ul>
+			</li>
+			<li><a  class="displaying" href="email.html">Subscribe</a></li>
+		</ul>
+	</div>
+
+	<aside id="sidebarA">
+		<ul>
+			<li><a id="saElem" href="products/props.html">Props</a></li>
+			<li><a id="saElem" href="products/costumes.html">Costumes</a></li>
+			<li><a id="saElem" href="products/special.html">Special FX</a></li>
+			<li><a id="saElem" href="products/masks.html">Masks</a></li>
+		</ul>
+
+	</aside>
+
+	<div class="Subscribe">
+		<form action="subscribe.html">
+	   		<h1>Please enter the following information.</h1>
+			<p class="required">First Name: <input type="text" name="firstName" required autofocus placeholder="John"></p>
+			<p class="required">Last Name: <input type="text" name="lastName" required placeholder="Doe"></p>
+	   		<p class="required">E-Mail: <input type="email" name="email" required placeholder="example@email.com"></p>
+			<p>Zipcode: <input type="text" name="zipcode" pattern="[0-9]{5}" maxlength="5" placeholder="Optional: 99999"></p>
+	   		<p><input id="submitButton" type="submit" name="submit" value="Subscribe"></p>
+   		</form>
+	</div>
+
+
+
+    <footer>
+        <p id="copyright">&copy;2019 Chris-Emio Raymond</p>
+    </footer>
+
+
+</body>
+
+
+</html>

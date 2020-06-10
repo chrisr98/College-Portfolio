@@ -1,0 +1,298 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+public class Hero extends Entity{
+	 private int strength;
+	 private int agility;
+	 private int dexterity;
+	 private Weapon weaponOnHand;
+	 private ArrayList<Item> inventory = new ArrayList<Item>();
+	 private int money;
+	 private int exp;
+	 private Armor armorOnBody;
+	 int type;
+	 //many heroes by one player????
+	 
+	 Hero(int Mana, String Name, int Level, int Exp, int Money, int Atk, int Def, int str, int agi, int dex, int Type) {
+		 super(((Exp / (int) 10) + 1) * 100, Mana, Name, Level, Atk, Def);
+		 strength = str;
+		 agility = agi;
+		 dexterity = dex;
+		 exp = Exp;
+		 money = Money;
+		 level = (exp / (int) 10) + 1;
+		 type = Type;
+		 
+		 //type 0 = warrior, 1 = sorcerer, 2 = paladin
+		 
+		 
+	 }
+	 
+	 public Weapon getWeaponOnHand() {
+		 return weaponOnHand;
+	 }
+	 
+	 public int getStrength() {
+		 return strength;
+	 }
+	 public int getDexterity() {
+		 return dexterity;
+	 }
+	 public int getAgility() {
+		 return agility;
+	 }
+	 
+	 public boolean isDead() {
+		 return (hp <= 0);
+	 }
+	 
+	 public boolean getAttacked(int damage, int type) {
+		 int toSubtract = damage;
+		// 0 = regular cell(plain), 1 = bush(dexterity), 2 = koulon(strength), 3 = cave(agility + 10%), 4 = nexus
+		int agile = agility;
+		if (type == 3) {
+			// Do something koulon(strength)
+			System.out.println(agile); // check damage comparison then remove
+			agile = (int) ((int) agile * 1.1);
+			System.out.println(agile); // check damage comparison then remove
+
+		} else {
+			// No bonus
+		}
+
+		 if (armorOnBody != null) {
+			 toSubtract -= armorOnBody.getDefBoost();
+			 if (toSubtract < 0) toSubtract = 0; //can't heal by dealing weak attack.
+		 }
+		 Random r = new Random();
+		 double random =  + r.nextDouble();
+		 
+		 if (random < agile * 0.02 / 100) {
+			 return false;
+		 } else {
+			 hp -= toSubtract;
+			 if (hp < 0) hp = 0;
+			 System.out.println("\n"+name + " has lost " + toSubtract + " hp and now its hp is " + hp);
+			 return true;
+		 }
+	 }
+	 
+	 public void addXP(int toAdd) {
+		 exp += toAdd;
+		 checkLevelUp();
+	 }
+	 
+	 public void endOfRound() {
+		 this.hp += (this.hp/10);
+		 this.mana += (this.mana/10);
+		 addXP(1);
+		 addMoney(50);		 
+	 }
+	 
+	 public void checkLevelUp() {
+		 if (exp / 10 + 1 > level) {
+			 level = exp / 10 + 1;
+			 System.out.println(name + " has leveled up to level " + level + "!");
+			 hp = level * 100;//update hp
+			//Warriors are favored on the strength and the agility.
+			 //Sorcerers are favored on the dexterity and the agility.
+			 //Paladins are favored on the strength and the dexterity. 
+			 if (type == 0) {
+				 strength += level * 5000;
+				 agility += level * 5000;
+			 } else if (type == 1) {
+				 dexterity += level * 5000;
+				 agility += level * 5000;
+			 } else if (type == 2) {
+				 dexterity += level * 5000;
+				 strength += level * 5000;
+			 }
+			 System.out.println(name + " now has these stats:");
+			 System.out.println(this.toString());
+		 }
+		 
+	 }
+	 
+	 public void revive() {
+		 hp = 75 * level;
+	 }
+	 
+	 public int getLevel() {
+		 return level;
+	 }
+	 
+	 public ArrayList<Item> getInventory() {
+		 return inventory;
+	 }
+	 
+	 public int getMana() {
+		 return mana;
+	 }
+	 
+	 public int getMoney() {
+		 return money;
+	 }
+	 
+	 public boolean usePotion(Potion potion) {
+		 //{increaseType, increaseValue}
+		 if (!inventory.contains(potion)) {
+			 System.out.println("Inventory doesn't contain specified potion!! Hero.java");
+			 return false;
+		 }
+		 int[] vals = potion.getTypeAndValue();
+		 if (vals[0] == 0) { //0 = agility, 1 = dex, 2 = atk, 3 = def, 4 = hp, 5 = mana, 6 = strength
+			 //{"Agility", "Dexterity", "Attack", "Defense", "Hp", "Mana", "Strength"}
+			 agility += vals[1];
+		 } else if (vals[0] == 1) {
+			 dexterity += vals[1];
+		 } else if (vals[0] == 2) {
+			 atkDamage += vals[1];
+		 } else if (vals[0] == 3) {
+			 defense += vals[1];
+		 } else if (vals[0] == 4) {
+			 hp += vals[1];
+		 } else if (vals[0] == 5) {
+			 mana += vals[1];
+		 } else if (vals[0] == 6) {
+			 strength += vals[1];
+		 }
+		 xIsNow(vals[0]);
+		 inventory.remove(potion);
+		 return true;
+	 }
+	 
+	 public void addMoney(int toAdd) {
+		 money += toAdd;
+	 }
+	 
+	 public void xIsNow(int index) {
+		 String types[] = {"Agility", "Dexterity", "Attack", "Defense", "Hp", "Mana", "Strength"};
+		 int values[] = {agility, dexterity, atkDamage, defense, hp, mana, strength};
+		 System.out.println(name + "'s " + types[index] + " is now " + values[index] + " after drinking potion!");
+	 }
+	 
+	 public String stringInventory() {
+		 String inventorystr = "";
+		 for (int i = 0; i < inventory.size(); i++) { 		      
+	           inventorystr += (i+1) + ". " + inventory.get(i).toString(); 
+	           inventorystr += "\n";
+	      }
+		 return inventorystr;
+	 }
+	 
+	 public String toString() {
+		 String tab = "        ";
+		 return  "Name: " + name + tab +  "Mana: " + mana + tab + "Hp: " +  hp + tab +  "Level: " + level 
+				 + tab +  "Exp: " + exp + tab
+				 +  "Strength: " + strength + tab + "Agility: " + agility + tab + "Dexterity:" +  dexterity;
+	 }
+	 
+	public boolean buySomething(Item toBuy) {
+		if (toBuy.getPrice() < money) {
+			if (toBuy.getReq() <= level) {
+				inventory.add(toBuy);
+				money -= toBuy.getPrice();
+				System.out.println(name + " has bought " + toBuy.getName() + "!");
+				System.out.println("$" + money + " left in " + name + "'s money pouch.\n Items in inventory: ");
+				System.out.println(stringInventory());
+				return true;
+			} else {
+				System.out.println("Your hero's level is not high enough for this item!");
+				return false;
+			}
+		} else {
+			System.out.println("Not enough funds!");
+			return false;
+		}
+	}
+	
+	public void sellSomething(Item toSell) {
+		if (inventory.remove(toSell)) {
+			money += toSell.getPrice() / 2;
+			System.out.println(name + " has sold " + toSell.getName() + " for $" + toSell.getPrice() / 2 + "!");
+			System.out.println("$" + money + " left in " + name + "'s money pouch.\n Items in inventory: ");
+			System.out.println(stringInventory());
+		} else {
+			System.out.println("Transaction failed - item not in inventory. Not your fault - it's bad code.");
+		}
+	}
+	 
+	 public ArrayList<Weapon> getAllWeapons() {
+		 ArrayList<Weapon> weapons = new ArrayList<Weapon>();
+		 for (Item thing : inventory) {
+			 if (thing instanceof Weapon) {
+				 weapons.add((Weapon) thing);
+			 }
+		 }
+		 return weapons;
+	 }
+	 
+	 public boolean changeWeapon() {
+		 if (weaponOnHand != null) {
+			 System.out.println("You are wielding " + weaponOnHand.toString());
+		 } else {
+			 System.out.println("You are wielding no weapon.");
+		 }
+		 
+		 System.out.println("You have the following weapons: ");
+		 ArrayList<Weapon> weapons = getAllWeapons();
+		 for (int i = 0; i < weapons.size(); i++) {
+			 System.out.println((i+1) + ". " + weapons.get(i).toString());
+		 }
+		 System.out.println("Which weapon would you like to wield?");
+		 System.out.println("0. Exit");
+		 int response = (int) Gamelogic.menuGetInput(null, false, 1);
+		 if (response < 0 || response > weapons.size()) {
+			 System.out.println("Invalid input! Try again");
+			 return changeWeapon();
+		 } else if (response == 0) {
+			 return false;
+		 }
+		 else {
+			 weaponOnHand = weapons.get(response - 1);
+			 return true;
+		 }
+	 }
+	 
+	 public ArrayList<Armor> getAllArmors() {
+		 ArrayList<Armor> armors = new ArrayList<Armor>();
+		 for (Item thing : inventory) {
+			 if (thing instanceof Armor) {
+				 armors.add((Armor) thing);
+			 }
+		 }
+		 return armors;
+	 }
+	 
+	 public boolean changeArmor() {
+		 if (armorOnBody != null) {
+			 System.out.println("You are wearing " + armorOnBody.toString());
+		 } else {
+			 System.out.println("You are wearing no armor.");
+		 }
+		 
+		 System.out.println("You have the following armors: ");
+		 ArrayList<Armor> armors = getAllArmors();
+		 for (int i = 0; i < armors.size(); i++) {
+			 System.out.println((i+1) + ". " + armors.get(i).toString());
+		 }
+		 System.out.println("Which armor would you like to wear?");
+		 System.out.println("0. Exit");
+		 int response = (int) Gamelogic.menuGetInput(null, false, 1);
+		 if (response < 0 || response > armors.size()) {
+			 System.out.println("Invalid input! Try again");
+			 return changeArmor();
+		 }	else if (response == 0) {
+			 return false;
+		 }
+		 else {
+			 armorOnBody = armors.get(response - 1);
+			 return true;
+		 }
+	 }
+	 
+	 public void death() {
+		 money = money / 2;
+		 System.out.println(name + " died! You have $" + money + " left.");
+	 }
+}

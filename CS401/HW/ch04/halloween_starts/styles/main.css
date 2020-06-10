@@ -1,0 +1,73 @@
+ * {font-family: sans-serif}
+    a
+    {
+        color: orange;
+        font-weight: bold;
+
+    }
+
+    a:hover, a:focus
+    {
+        color: green;
+    }
+
+    li
+    {
+        padding-bottom: .5em;
+        padding-left: .25em;
+    }
+
+    img
+    {
+        float: left;
+        margin-right: 2em;
+        margin-bottom: -2em;
+    }
+
+
+    body
+    {
+        font-size: 100%;
+        margin-left: 2em;
+        margin-right: 2em;
+    }
+
+    header
+    {
+        padding-bottom: .75em;
+        /* border-bottom: 3px solid black; */
+        margin-bottom: 0;
+    }
+
+    #header
+    {
+        font-size: 250%;
+        color: orange;
+        font-style: italic;
+        text-shadow: 2px 2px black;
+    }
+
+    #list
+    {
+
+    }
+
+
+    #firstChild:first-child::first-letter
+    {
+        font-size: 300%;
+        margin-bottom: 0;
+    }
+
+    h1, h2,h3
+    {
+        font-size: 150%;
+        margin-bottom: 0;
+    }
+
+    /*One element by ID*/
+    #copyright
+    {
+        font-size: 80%;
+        text-align: center;
+    }

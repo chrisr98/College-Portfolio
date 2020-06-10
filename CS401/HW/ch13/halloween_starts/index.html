@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- BLOCK COMMENT-->
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="styles/main.css">
+	<link rel="stylesheet" href="styles/slicknav.css">
+	<link rel="icon" href="images/favicon.ico" type="image/png">
+	<link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
+    <title>Halloween Store</title>
+</head>
+
+
+<body>
+    <header>
+        <img id="headerImage" src="images/pumpkin.gif" alt="Picture of a Pumpkin" class="responsive">
+            <hgroup>
+				<h1 id="header">Chris-Emio's Halloween Store.</h1>
+                <h2 style="font-size: 200%;">Unleash your inner Monster!!!</h2>
+            </hgroup>
+    </header>
+
+	<div class="navbar" id="menu">
+		<ul>
+			<li><a class="displaying" href="index.html">Home</a></li>
+			<li><a href="products/productList.html">Product List</a></li>
+			<li><a href="personal.html">Personal</a></li>
+			<li><a href="/s4/">Decorations</a>
+			   <ul>
+				   <li><a href="sec1">Outdoor</a></li>
+				   <li><a href="sec2">Indoor</a></li>
+				   <li><a href="sec3">Table</a></li>
+				   <li><a href="sec4">Treats</a></li>
+			   </ul>
+			</li>
+			<li><a href="email.html">Subscribe</a></li>
+		</ul>
+	</div>
+	<div class="slicknav_menu">
+	<a href="#" aria-haspopup="true" role="button" tabindex="0" class="slicknav_btn slicknav_collapsed" style="outline: none;">
+		<span class="slicknav_menutxt">MENU</span>
+		<span class="slicknav_icon">
+			<span class="slicknav_icon-bar"></span>
+			<span class="slicknav_icon-bar"></span>
+			<span class="slicknav_icon-bar"></span>
+		</span>
+	</a>
+		<nav class="slicknav_nav slicknav_hidden" aria-hidden="true" role="menu" style="display: none;">
+		<ul>
+			<li><a href="index.html">Home</a></li>
+			<li><a href="s2">Product List</a></li>
+			<li><a href="/s3/">Personal</a></li>
+			<li><a href="/s4/">Decorations</a>
+			   <ul>
+				   <li><a href="sec1">Outdoor</a></li>
+				   <li><a href="sec2">Indoor</a></li>
+				   <li><a href="sec3">Table</a></li>
+				   <li><a href="sec4">Treats</a></li>
+			   </ul>
+			</li>
+			<li><a href="/s1/">Subscribe</a></li>
+		</ul>
+	  	</nav></div>
+
+	<aside id="sidebarA">
+		<ul>
+			<li><a id="saElem" href="products/props.html">Props</a></li>
+			<li><a id="saElem" href="products/costumes.html">Costumes</a></li>
+			<li><a id="saElem" href="products/special.html">Special FX</a></li>
+			<li><a id="saElem" href="products/masks.html">Masks</a></li>
+		</ul>
+
+	</aside>
+
+
+
+    <main>
+        <section>
+
+			<h1 id="firstChild"> Welcome to Chris-Emio's Halloween Store!!!</h1>
+			<h1> Please come in and stay awhile.</h1>
+            <p>I started this website because Halloween has always been my favorite holiday. But during the last year, I started selling some of my favorite Halloween products, and they've become quite a hit.</p>
+            <p>If you click on the Personal link, you can browse my favorite Halloween pictures, stories, and films. And if you join my email list, I will keep you up-to-date on all things Halloween.</p>
+            <h2>Product of the week</h2>
+			<aside id="sidebarB">
+				<a href="products/cat.html"><img src="images/cat1.jpg" alt="Picture of a cat statuette" class="responsive"></a>
+			</aside>
+			<ul id="catlink" style="list-style-type:none;">
+				<li><a href="products/cat.html">20" Deranged Cat</a></li>
+			</ul>
+			<h3>My guarantee</h3>
+		    <p>Geared towards customer satisfaction.</p>
+			<p>If you aren't completely satisfied with everything you buy from my site, you can return it for a full refund. No questions asked!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p id="copyright">&copy;2019 Chris-Emio Raymond</p>
+    </footer>
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="../js/jquery.slicknav.min.js"></script>
+
+  <script type="text/javascript">
+  $(document).ready(function(){
+  	$('#menu').slicknav();
+  });
+  </script>
+</body>
+
+
+</html>

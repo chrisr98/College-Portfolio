@@ -1,0 +1,65 @@
+@media print
+{
+
+    body
+    {
+        font-family: 'Times New Roman', Times, serif;
+        width: auto;
+        font-size: 100%;
+        background-color: white;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+
+    aside
+    {
+        display: none;
+    }
+
+    .navbar
+    {
+        display: none;
+    }
+
+    img
+    {
+        display: none;
+    }
+
+    header
+    {
+        display: none;
+    }
+
+    video
+    {
+        display: none;
+    }
+
+    #intro
+    {
+        display: none;
+    }
+
+    #author
+    {
+        margin: auto;
+        margin-bottom: 1em;
+        border-top: 2px solid #000;
+    }
+    .story p
+    {
+        margin: auto;
+        font-size: 100%;
+        margin-bottom: 1em;
+    }
+
+    .story h1
+    {
+        margin: auto;
+    }
+
+
+}

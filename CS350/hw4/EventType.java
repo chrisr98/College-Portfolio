@@ -1,0 +1,3 @@
+public enum EventType {
+    DEATH, BIRTH, MONITOR, DEATH_S0, DEATH_S1, DEATH_S2, BIRTH_S1, BIRTH_S2, BIRTH_S3
+}

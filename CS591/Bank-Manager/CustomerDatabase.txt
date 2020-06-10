@@ -1,0 +1,4 @@
+Format: "UID First Last password userName pocketmoney"
+525811 jon doe 1111 aaaa 0
+862109 jane doe 2222 bbbb 0
+404796 rand om 3333 cccc 0

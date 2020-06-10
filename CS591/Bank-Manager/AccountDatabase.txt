@@ -1,0 +1,6 @@
+Format: “accountNumber userID accountType status value”
+3596 525811 SavingAccount true 68064.892831214
+2492 525811 SecurityAccount true 10000000.0
+3788 404796 SavingAccount true 76420.12258307694
+9046 404796 SecurityAccount true 499322.0
+7152 404796 CheckingAccount true 40.0

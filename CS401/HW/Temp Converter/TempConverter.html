@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Converter</title>
+
+</head>
+
+<body>
+    <h3>Convert Temperatures</h3>
+
+    Fahrenheit to Celsius: <input type="radio" id="myRadio" onclick="myFunction()">
+    Celsius to Fahrenheit: <input type="radio" id="myRadio1" onclick="myFunction1()">
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myRadio");
+            var y = document.getElementById("myRadio1");
+            x.checked = true;
+            y.checked = false;
+
+
+            var far, cel;
+            while(x.checked == true){
+                far = prompt("Enter temperature in Fahrenheit : ", "Enter 999 to end");
+                if(far==999)
+                    break;
+                if (far < -100 || far > 212)
+                    alert("The acceptable range is from -100 to +212.\nYou have entered "+far);
+                else{
+                    cel=(far-32)*5/9;
+                    alert("Temperature in Fahrenheit : " + far + "\nTemperature in Celsius : " + cel);
+                    }
+
+            }
+        }
+
+        function myFunction1() {
+            var y = document.getElementById("myRadio1")
+            var x = document.getElementById("myRadio");
+            y.checked = true;
+            x.checked = false;
+
+            var far, cel;
+            while(y.checked == true){
+                cel = prompt("Enter temperature in Celsius : ", "Enter 999 to end");
+                if(cel==999)
+                    break;
+                if (cel < 0 || cel > 100)
+                    alert("The acceptable range is from 0 to 100.\nYou have entered "+far);
+                else{
+                    far=(cel*(9/5) +32)
+                    alert("Temperature in Celsius : " + cel + "\nTemperature in Fahrenheit : " + far);
+                    }
+            }
+
+        }
+    </script>
+    <main>
+        <h1>Thank you for using the temperature converter</h1>
+    </main>
+</body>
+</html>

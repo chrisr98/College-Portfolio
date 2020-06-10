@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- BLOCK COMMENT-->
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="styles/personal.css">
+	<link rel="icon" href="images/favicon.ico" type="image/png">
+    <title>Halloween Store</title>
+</head>
+
+
+<body>
+    <header>
+		<!-- Image -->
+        <img usemap="#pumkinHome" id="headerImage" src="images/pumpkin.gif" alt="Picture of a Pumpkin" class="responsive">
+		<!-- Map -->
+		<map name="pumkinHome">
+			<area shape="circle" coords="50,50,50" href="index.html" target="_blank" alt="Home Page">
+		</map>
+            <hgroup>
+				<h1 id="header">Chris-Emio's Halloween Store.</h1>
+                <h2 style="font-size: 200%;">Unleash your inner Monster!!!</h2>
+            </hgroup>
+    </header>
+
+	<div class="navbar" id="menu">
+		<ul>
+			<li><a href="index.html">Home</a></li>
+			<li><a href="products/productList.html">Product List</a></li>
+			<li><a class="displaying" href="personal.html">Personal</a></li>
+			<li><a href="/s4/">Decorations</a>
+			   <ul>
+				   <li><a href="sec1">Outdoor</a></li>
+				   <li><a href="sec2">Indoor</a></li>
+				   <li><a href="sec3">Table</a></li>
+				   <li><a href="sec4">Treats</a></li>
+			   </ul>
+			</li>
+			<li><a href="email.html">Subscribe</a></li>
+		</ul>
+	</div>
+
+	<aside id="sidebarA">
+		<ul>
+			<li><a id="saElem" href="s1">Pictures</a></li>
+			<li><a id="saElem" href="s2">Home Videos</a></li>
+			<li><a id="saElem" href="s3">Haunted Houses</a></li>
+			<li><a id="saElem" href="s4">Scary Stroies</a></li>
+		</ul>
+
+	</aside>
+
+	<h1>Here is my favorite haunted house!</h1>
+
+	<video src="media/hobbsgrove.mp4" controls  width=500 height=250>
+		 <p>If the video is not visible, most likely your browser does not support HTML5 video</p>
+		 <!-- mp4 version needs to be included first if the video is going to work in Safari -->
+		 <source src="media/hobbsgrove.swf" type="video/swf">
+	</video>
+
+
+    <footer>
+        <p id="copyright">&copy;2019 Chris-Emio Raymond</p>
+    </footer>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,208 @@
+ * {font-family: sans-serif}
+
+    html
+    {
+        background-image: url(../images/bats.gif);
+    }
+
+    a
+    {
+        color: orange;
+        font-weight: bold;
+
+    }
+
+    a:hover, a:focus
+    {
+        color: green;
+    }
+
+    li
+    {
+        padding-bottom: .5em;
+        padding-left: .25em;
+    }
+
+    aside ul
+    {
+        list-style: none;
+    }
+
+
+    #sidebarA
+    {
+        margin-top: 20px;
+        width: 160px;
+        height: 600px; /* to give the sidebar some height for its border */
+        float: left;
+        margin-left: -20px;
+        padding-right: 20px;
+
+    }
+
+    #sidebarA ul li a
+    {
+        display: block;
+        border: 2px solid #000;
+        margin-left: -15px;
+        background: orange;
+
+    }
+
+
+    #saElem
+    {
+        text-decoration: none;
+        padding: 5px 5px 5px 10px;
+        font-size: 125%;
+        color: black;
+
+    }
+
+    #sidebarB
+    {
+        height: 100px;
+    }
+
+    footer
+    {
+        clear: both;
+    }
+
+    @media only screen and (min-width: 40px)
+    {
+        img
+        {
+            width: 8em;
+            height: auto;
+            float: left;
+            margin-right: 2em;
+            margin-bottom: -2em;
+        }
+    }
+
+
+    body
+    {
+        font-size: 100%;
+        width: 800px;
+        background-color: white;
+        margin: 15px auto;
+        padding: 15px 1.5em;
+        border: 1px solid black;
+        border-radius: 50px;
+        box-shadow: 20px 20px;
+    }
+
+    header
+    {
+        background-image: linear-gradient(45deg, white 0%, orange 35%, black 105%);
+        font-size: 83%;
+        border-bottom: 5px solid black;
+        margin-bottom: 0;
+    }
+
+    header h2
+    {
+        margin-left: 4.2em;
+    }
+
+    #header
+    {
+        font-size: 250%;
+
+    }
+
+    #firstChild:first-child::first-letter
+    {
+        font-size: 300%;
+    }
+
+    h1, h2,h3
+    {
+        font-size: 125%;
+    }
+
+    /*One element by ID*/
+    #copyright
+    {
+        border-top: 5px solid black;
+        padding-top: .15em;
+        padding-bottom: .15em;
+        background-image: linear-gradient(45deg, black 0%, orange 45%, white 100%);
+        font-size: 80%;
+        text-align: center;
+    }
+
+    .slicknav_menu
+    {
+        display:none;
+    }
+
+    .navbar
+    {
+        width: 100%;
+        background: black;
+
+    }
+    .navbar ul
+    {
+        list-style: none;
+        text-align: center;
+        display: inline;
+        margin: 0;
+        padding: 0;
+
+    }
+
+    .navbar ul li
+    {
+        display: inline-block;
+        position: relative;
+        padding: 25px 20px;
+    }
+
+    .navbar .displaying
+    {
+        color: orange;
+    }
+
+    .navbar ul li a
+    {
+        text-decoration: none;
+        font-weight: normal;
+        padding: 25px 20px;
+        color: white;
+    }
+
+    .navbar ul li ul
+    {
+        padding: 0;
+        position: absolute;
+        top: 140px;
+        left:0;
+        width: 150px;
+        display: none;
+        visibility: hidden;
+    }
+
+    .navbar ul li ul li
+    {
+        background: black;
+        display: block;
+        padding:  10px;
+
+    }
+
+    .navbar ul li ul li:hover
+    {
+        background: gray;
+    }
+
+    .navbar ul li:hover > ul
+    {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        top: 68px;
+    }

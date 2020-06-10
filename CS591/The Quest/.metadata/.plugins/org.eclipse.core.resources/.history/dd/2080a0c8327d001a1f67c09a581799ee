@@ -1,0 +1,609 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Random;
+import java.util.Scanner;
+
+public class Gamelogic {
+	private Board myBoard;
+	protected static Team team; //protected extends accessibility to subclasses
+	protected boolean continueGame = true;
+	private int maxHeroes;
+	
+	Gamelogic() {
+		
+	}
+	
+	Gamelogic(Board board, int MaxHeroes) {
+		maxHeroes = MaxHeroes;
+		team = new Team(maxHeroes);
+		myBoard = board;
+	}
+	
+	public static void main(String[] args) { //create instances to start game
+		Board myBoard = new Board(8);
+		Gamelogic myGame = new Gamelogic(myBoard, 3);
+		myGame.startGame();
+	}
+	
+	public void startGame() { //introduction and initialization
+		myBoard.printBoard();
+		System.out.println("Welcome to Quest.");
+		System.out.println("You can have up to " + maxHeroes + " heroes.");
+		boolean keepPicking = true;
+		while (team.numHeroes() <= 0) {
+			System.out.println("Pick your first hero to begin.");
+			pickHeroUI();
+		}
+		while (keepPicking && team.numHeroes() < maxHeroes) {
+			showMyHeroes();
+			String[] question = {"You have " + team.numHeroes() + " hero(s). Would you like another one?", "1. Yes", "2. No"};
+			int response = (int) menuGetInput(question, true, 1);
+			if (response == 2) {
+				keepPicking = false;
+				break;
+			} else if (response != 1)
+				System.out.println("Response wasn't no, so it's a yes!");
+			pickHeroUI();
+		}
+		gamePlay();
+	}
+	
+	public Spell chooseSpell() { //prints all spells and lets the player pick one
+		ArrayList<Item> inventory = team.getActiveHero().getInventory();
+		ArrayList<Spell> spells = new ArrayList<Spell>();
+		for (Item item : inventory) {
+			if (item instanceof Spell) {
+				spells.add((Spell) item);
+			}
+		}
+		if (spells.size() == 0) {
+			System.out.println("You have no spells!");
+			return null;
+		} else {
+			System.out.println("You have the following spells: ");
+			System.out.println("0. Exit");
+			for (int i = 0; i < spells.size(); i++) {
+				System.out.println((i+1) + ". " + spells.get(i).toString());
+			}
+			int response = (int) menuGetInput(null, false, 1);
+			if (response < 0 || response > spells.size()) {
+				System.out.println("Invalid input; try again");
+				return chooseSpell();
+			} else if (response == 0) {
+				return null;
+			} else {
+				return spells.get(response - 1);
+			}
+		}
+	}
+	
+	public boolean useSpell(Hero h, Monster m, Spell s, int type) { //implements mechanics of using spell on a monster
+		Random r = new Random();
+		// 0 = regular cell(plain), 1 = bush(dexterity), 2 = koulon(strength), 3 = cave(agility + 10%), 4 = nexus
+		int dex = h.getDexterity();
+		if (type == 2) {
+			// Do something koulon(strength)
+			System.out.println(dex); // check damage comparison then remove
+			dex = (int) ((int) dex * 1.1);
+			System.out.println(dex); // check damage comparison then remove
+
+		} else {
+			// No bonus
+		}
+		
+		double random =  + r.nextDouble();
+		if (random < m.getDodge() / 100) {
+			System.out.println(m.getName() + " has dodged your spell.");
+			return false;
+		}
+		int damage = s.getDamage() + s.getDamage()*(dex/10000);
+		//return false if dodged
+		if (s.getType() == 0) { //ice
+			//just damage. range doesn't exist
+		} else if (s.getType() == 1) { //fire
+			m.decreaseDef(5 * s.getReq()); //TODO: set real value
+		} else if (s.getType() == 2) {
+			m.decreaseDodge(5 * s.getReq());
+		}
+		boolean isDead = m.receiveSpellDamage(damage);
+		return isDead;
+	}
+	
+	public boolean drinkPotion(Hero h) { //returns whether a potion has been drunk
+		ArrayList<Item> inventory = h.getInventory();
+		ArrayList<Potion> potions = new ArrayList<Potion>();
+		for (Item item : inventory) {
+			if (item instanceof Potion) {
+				potions.add((Potion) item);
+			}
+		}
+		if (potions.size() == 0) {
+			System.out.println("You have no potions!");
+			return false;
+		} else {
+			System.out.println("You have the following potions: ");
+			System.out.println("0. Exit");
+			for (int i = 0; i < potions.size(); i++) {
+				System.out.println((i+1) + ". " + potions.get(i).toString());
+			}
+			int response = (int) menuGetInput(null, false, 1);
+			if (response < 0 || response > potions.size()) {
+				System.out.println("Invalid input; try again");
+				return drinkPotion(h);
+			} else if (response == 0) {
+				return false;
+			} else {
+				team.getActiveHero().usePotion(potions.get(response - 1));
+				return true;
+			}
+		}
+		
+		/*
+		 * print all potions. if none, "you have no potions!"
+		get potion option, or exit
+		drinkPotion()
+		you drank ... and it has ... effect on your hero.
+		{"agility", "dexterity", "attack", "defense", "hp", "mana"};
+		*/
+	}
+	
+	public boolean attack(Hero h, Monster m, int type) { //coordinates hero's attack and monster's damage
+		int damageInt;
+		//0 = regular cell(plain), 1 = bush(dexterity), 2 = koulon(strength), 3 = cave(agility + 10%), 4 = nexus
+		int str = h.getStrength();
+		if (type == 2) {
+			//Do something koulon(strength)
+			System.out.println(str); //check damage comparison then remove
+			str = (int) ((int)str*1.1);
+			System.out.println(str); //check damage comparison then remove
+			
+		} else {
+			//No bonus
+		}
+		
+		if (h.getWeaponOnHand() != null) {
+			double damage = (str + h.getWeaponOnHand().getDamage()) * 0.05;
+			damageInt = (int) damage;
+		} else {
+			double damage = str * 0.05;
+			damageInt = (int) damage;
+		}
+		
+		boolean kill = m.getAttacked(damageInt);
+		return kill;
+	}
+	
+	public void monsterAttack(Hero hero, MonsterGroup enemies) { //each monster takes turn to attack hero
+		ArrayList<Monster> monsters = enemies.getMonsterList();
+		for (Monster m : monsters) {
+			if (hero.getAttacked(m.getAttackDamage(), 0)) {
+				//System.out.println(hero.getName() + " lost health from attack by " + m.getName());
+				if (hero.isDead()) {
+					if (team.allDead()) {
+						System.out.println("Everyone is dead. You lose!");
+						System.exit(0);
+					}
+					System.out.println("Your active hero is dead! Pick another one to fight.");
+					pickActiveHero();
+				}
+			} else {
+				System.out.println(hero.getName() + " dodged an attack from " + m.getName());
+			}
+		}
+	}
+	
+	public boolean monsterUI(MonsterGroup enemies) { //user interface when monsters are encountered
+		if (enemies == null) {
+			enemies = new MonsterGroup(team.getActiveHero().getLevel());
+		}
+		while (!team.allDead() && !enemies.allDead()) {
+		System.out.println("The monsters are: ");
+		System.out.println(enemies.toString());
+			String[] MonsterOptions = {"1. Attack", "2. Drink Potion", "3. Use Spell", "4. Change Hero", "5. Change Weapon", "6. Change Armor", "7. Display Heroes"};
+			int response = (int) menuGetInput(MonsterOptions, true, 1);
+			if (response == 1) {
+				String[] whichMonster = {"Which one would you like to attack?", enemies.toString()};
+				int monsterOption = (int) menuGetInput(whichMonster, true, 1);
+				if (enemies.getMonster(monsterOption - 1).isDead) {
+					System.out.println("The monster is already dead!");
+					return monsterUI(enemies);
+				} else {
+					attack(team.getActiveHero(), enemies.getMonsterList().get(monsterOption - 1), 0);
+					monsterAttack(team.getActiveHero(), enemies);
+					System.out.println("You attacked " + enemies.getMonsterList().get(monsterOption - 1).getName() + " and now its hp is " + enemies.getMonsterList().get(monsterOption - 1).getHP());
+				}
+			} else if (response == 2) {
+				drinkPotion(team.getActiveHero());
+				//monsterAttack(team.getActiveHero(), enemies);
+			} else if (response == 3) {
+				Spell spell = chooseSpell();
+				if (spell != null) {
+					String[] whichMonster = {"Which one would you like to use this spell on?", enemies.toString()};
+					int monsterOption = (int) menuGetInput(whichMonster, true, 1);
+					//exit option
+					if (spell.getMC() > team.getActiveHero().getMana()) {
+						System.out.println("Not enough mana!");
+						return monsterUI(enemies);
+					}
+					if (useSpell(team.getActiveHero(), enemies.getMonsterList().get(monsterOption - 1), spell, 0)) { //true if spell killed monster
+						//enemies.removeMonster(enemies.getMonsterList().get(monsterOption - 1));
+					} //code above removes monster from group if dead, so it won't be in the attack
+					//print effects...
+					monsterAttack(team.getActiveHero(), enemies);
+				} else {
+					monsterUI(enemies);
+				}
+			} else if (response == 4) {
+				changeHero(team);
+			} else if (response == 5) {
+				team.getActiveHero().changeWeapon();
+			} else if (response == 6) {
+				team.getActiveHero().changeArmor();
+			} else if (response == 7) {
+				System.out.println(team.toString());
+			} else {
+				System.out.println("Invalid response.");
+				monsterUI(enemies);
+			}
+		}
+		if (enemies.allDead()) {
+			System.out.println("You have defeated the enemy(ies)!");
+			team.getActiveHero().addXP(2 * enemies.getMonsterNum()); //each kill is 2 exp. TODO
+			System.out.println(team.getActiveHero().getName() + "has gained " + 2 * enemies.getMonsterNum() + " xp.");
+			team.getActiveHero().checkLevelUp();
+			team.getActiveHero().addMoney(800 * enemies.getMonsterNum());
+			System.out.println(team.getActiveHero().getName() + "has gained $" + 800 * enemies.getMonsterNum());
+			team.reviveTheDead();
+			return false;
+		} else {
+			System.out.println("Every single hero is dead and you lost.");
+			return true;
+		}
+	}
+	
+	public void pickHeroUI() { //user interface for picking a hero
+		String[] heroOptions = {"Which type of heroes would you like?", "0. Exit" , "1. Warriors", "2. Paladins", "3. Sorcerers"};
+		String[] textFiles = {"Warriors.txt", "Paladins.txt", "Sorcerers.txt"};
+		int response = (int) menuGetInput(heroOptions, true, 1);
+		if (response == 0) {
+			return;
+		}
+		Entity[] entities = getData(textFiles[response - 1], 6, 1);
+		Hero[] heroes;
+		if (entities instanceof Hero[]) {
+			heroes = (Hero[]) getData(textFiles[response - 1], 6, 1);
+		} else {
+			throw new IllegalArgumentException("method input wrong");
+		}
+		String[] heroStr = new String[heroes.length + 1];
+		heroStr[0] = "0. Exit";
+		for (int i = 0; i < heroes.length; i++) {
+			heroStr[i+1] = (i+1) + ". " + heroes[i].toString();
+		}
+		response = (int) menuGetInput(heroStr, true, 1);
+		//needs error checking
+		if (response == 0) {
+			pickHeroUI();
+			return;
+		} else if (response > 0 && response < heroes.length + 1) {
+			team.addHero(heroes[response - 1]);
+			System.out.println("You have added " + heroes[response-1].getName() + " to your team.");
+			//showMyHeroes();
+		} else {
+			System.out.println("Your input is out of range; try again.");
+			pickHeroUI();
+			return;
+		}
+	}
+	
+	public void pickActiveHero() { //displays options for selecting an active hero
+		showMyHeroes();
+		String[] question = {"Which one would you like?"};
+		int response = (int) menuGetInput(question, true, 1);
+		//TODO: error checking
+		if (response > team.numHeroes() || response < 1) {
+			System.out.println("Your response was " + response + " but it must be between 1 and " + team.numHeroes() + "!");
+			pickActiveHero();
+			return;
+		}
+		if (team.getHero(response - 1).isDead()) {
+			System.out.println("The hero you picked is dead! Pick another one.");
+			pickActiveHero();
+			return;
+		}
+		team.changeActiveHero(response - 1);
+		return;
+	}
+	
+	public void optionCenter(char c) { //selects response based on input
+		if (c == 'C' || c == 'c') {
+			pickActiveHero();
+			
+		} else if (c == 'E' || c == 'e') {
+			System.out.println("Your inventory contains: ");
+			System.out.println(team.getActiveHero().getInventory().toString());
+			System.out.println("You have : $" + team.getActiveHero().getMoney());
+		} else if (c == 'H' || c == 'h') {
+			System.out.println(team.getActiveHero().toString());
+		} else if (c == 'M' || c == 'm') {
+			TileSpace curspot = myBoard.getCurrentMarket();
+			if (!(curspot instanceof Market)) {
+				System.out.println("You are not at a market!");
+			} else {
+				trade((Market) curspot, team.getActiveHero());
+			}
+		} else if (c == 't' || c == 'T') {
+			team.getActiveHero().changeWeapon();
+		} else if (c == 'y' || c == 'Y') {
+			team.getActiveHero().changeArmor();
+		}
+		else if (c == 'n' || c == 'N') {
+			myBoard.printBoard();
+		} else if (c == 'r' || c =='R') {
+			System.out.println(team.toString());
+		} else if (c == 'p' || c == 'P') {
+			drinkPotion(team.getActiveHero());
+		}
+	}
+	
+	public void gamePlay() { //deals with player movement 
+		while (continueGame) {
+			//.printBoard();
+			System.out.println(""); //instructions
+			if (team.getActiveHero() == null) {
+				System.out.println("You have no active hero. You must pick an active hero!");
+				pickActiveHero();
+				myBoard.printBoard();
+			}
+			//allow player to make move
+			System.out.println("Use w/a/s/d to move. Press 'e' to check inventory.");
+			System.out.println("Press 'c' to change your active hero, and 'h' to check hero stats.");
+			System.out.println("Press 'p' to drink potion, 't' to change weapon, 'y' to change armor");
+			System.out.println("If you are at a market, press 'm' to enter market.");
+			System.out.println("Press 'n' to print map again and 'r' to display heroes.");
+			//display hero information, check inventory, change hero/weapon/armor, drink potion, make move
+			Scanner in = new Scanner(System.in);
+			char playerCommand = in.next().charAt(0);
+			optionCenter(playerCommand);
+			if (isDirection(playerCommand)) {
+				TileSpace dest = myBoard.makeMove(playerCommand);
+				while (dest == null) {
+					System.out.println("You can't go there! Move in another direction.");
+					playerCommand = in.next().charAt(0);
+					dest = myBoard.makeMove(playerCommand);
+				}
+				
+				if (dest instanceof CommonTile) {
+					if (isThereMonster()) {
+						System.out.println("You have encountered Monster(s)!");
+						if (monsterUI(null)) { //true means lose game
+							return;
+						}
+					}
+				}
+				
+				if (dest instanceof Market) {
+					System.out.println("There is a market here. Would you like to go in? y/n");
+					char goInMarket = in.next().charAt(0);
+					if (goInMarket == 'y' || goInMarket == 'Y') {
+						trade((Market) dest, team.getActiveHero());
+					} else if (goInMarket == 'n' || goInMarket == 'N') {
+						continue;
+					} else {
+						System.out.println("Invalid input.");
+					}
+				}
+			}
+			myBoard.printBoard();
+			//respond according to market, blank or inaccessible
+		}
+	}
+	
+	public void trade(Market m, Hero h) { //deals with trading
+		boolean keepBuying = true;
+		System.out.println("You are at a market. It sells the following items: ");
+		System.out.println(m.toString());
+		System.out.println("You have $" + team.getActiveHero().getMoney());
+		System.out.println("Would you like to buy, sell or exit?");
+		String[] buyOrSell = {"0. Exit", "1. Buy", "2. Sell"};
+		int response = (int) menuGetInput(buyOrSell, true, 1);
+		
+		if (response == 0) { //exit
+			return;
+		} else if (response == 1) { //buy
+			while (keepBuying) {
+				System.out.println("Items for sale: ");
+				String[] exitOption = {"0. Exit Buy Menu", m.toString()};
+				response = (int) menuGetInput(exitOption, true, 1);
+				if (response <= m.numItems() && response > 0) {
+					h.buySomething(m.getItem(response - 1));
+				} else if (response == 0) {
+					keepBuying = false;
+					trade(m, h);
+					return;
+				} else {
+					System.out.println("Invalid input; try again.");
+				}
+			}
+		} else if (response == 2) { // sell
+			while (true) { //there's a break on the inside to break out.
+				String[] exitOption = {"Select the item to sell, if any", "0. Exit Sell Menu", h.stringInventory()};
+				response = (int) menuGetInput(exitOption, true, 1);
+				if (response <= h.getInventory().size() && response > 0) {
+					h.sellSomething(h.getInventory().get(response - 1));
+				} else if (response == 0) {
+					trade(m, h);
+					return;
+				} else {
+					System.out.println("Invalid input; try again.");
+				}
+			}
+		} else {
+			System.out.println("Invalid input.");
+			trade(m, h);
+		}
+	}
+	//meet monster chance, meet monster UI
+	//meet market
+	//
+	public boolean isDirection(char a) { //returns whether a user input is a direction key
+		if (a == 'W' || a == 'w' || a == 'S' || a == 's' || a == 'A' || a == 'a' || a == 'D' || a == 'd') {
+			return true;
+		}
+		return false;
+	}
+	
+	public void changeHero(Team t) { //pick active hero
+		Scanner in = new Scanner(System.in);
+		System.out.println("Your squad is composed of the following heroes:");
+		System.out.println(team.toString());
+		System.out.println("Input the number of the hero to rotate: ");
+		int toChange = in.nextInt(); //try catch?
+		if (toChange == 0) return;
+		while (!team.changeActiveHero(toChange - 1)) {
+			System.out.println("Invalid input; try again.");
+			toChange = in.nextInt(); //TODO: try catch?
+			if (toChange == 0) {
+				break;
+			}
+		}
+		System.out.println("Your active hero is now " + team.getActiveHero().getName());
+	}
+	
+	public static Entity[] getData(String filename, int numOfNums, int monsterOrHero) { //monster = 0, hero = 1
+		String[] heroTypes = {"Warriors.txt", "Sorcerers.txt", "Paladins.txt"};
+		ArrayList<Entity> entities = new ArrayList<Entity>(); //reads from all the hero/monster files.
+		int[] attributes = new int[numOfNums];
+		for (int i = 0; i < attributes.length; i++) {
+			attributes[i] = 0;
+		}
+		FileReader input = null;
+		try {
+			input = new FileReader(filename);
+		} catch (FileNotFoundException e) {
+			System.out.println("file not found");
+			e.printStackTrace();
+		}
+		BufferedReader bufRead = new BufferedReader(input);
+		String myLine = null;
+		try {
+			bufRead.readLine();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			while ( (myLine = bufRead.readLine()) != null)
+			{
+				if (myLine.isEmpty() || myLine.trim().equals("") || myLine.trim().equals("\n")) { //skip empty lines
+					continue;
+				}
+			    String[] array1 = myLine.split("\\s+");
+			    String tempName = array1[0];
+			    for (int i = 1; i < array1.length; i++) {
+			    	attributes[i-1] = Integer.parseInt(array1[i]);
+			    }
+			    if (monsterOrHero == 0) { //entity is a monster
+			    	if (tempName != null && tempName != "") {
+				    	Monster newMonster = new Monster(100 * attributes[0], tempName, attributes[0], attributes[1], attributes[2], attributes[3]);
+				    	entities.add(newMonster);
+			    	}
+			    	//level/damage/defense/dodge chance
+			    	//(int Hp, String Name, int Level, int Atk, int Def, int Dodge)
+			    } else if (monsterOrHero == 1) { //hero
+			    	int heroType = indexxof(heroTypes, filename);
+			    	entities.add(new Hero(attributes[0], tempName, attributes[5]/10, attributes[5], attributes[4], 0, 0, attributes[1], attributes[2], attributes[3], heroType));
+			    	//mana/strength/agility/dexterity/starting money/starting experience
+			    	//int Hp, int Mana, String Name, int Level, int Exp, int Money; int Atk, int Def, int str, int agi, int dex
+			    } else {
+			    	System.out.println("getData input error -- has to be 0 or 1");
+			    	return null;
+			    }
+			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			System.out.println("number format problem");
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("io exception");
+			e.printStackTrace();
+		}
+		Entity[] entitiesToReturn;
+		if (monsterOrHero == 1) {
+			entitiesToReturn = entities.toArray(new Hero[entities.size()]);
+		} else {
+			entitiesToReturn = entities.toArray(new Monster[entities.size()]);
+		}
+		return entitiesToReturn;
+	}
+	
+	public static Object menuGetInput(String[] options, boolean haveSomethingtoPrint, int charOrInt) { //char = 0, int = 1
+		Scanner in = new Scanner(System.in); //print out a list of strings, returns player's input. can be char or int.
+		if (haveSomethingtoPrint) {
+			for (int i = 0; i < options.length; i++) {
+				System.out.println(options[i]);
+			}
+		}
+		if (charOrInt == 1) {
+			int response;
+			try {
+				response = in.nextInt();
+			} 
+			catch (InputMismatchException e) {
+				System.out.println("Wrong input!!! Integers only PLEASEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!");
+				return menuGetInput(options, haveSomethingtoPrint, charOrInt);
+			}
+			return response;
+		} else if (charOrInt == 0) {
+			String response;
+			try {
+				response = in.nextLine();
+			} 
+			catch (InputMismatchException e) {
+			    System.out.println("Wrong input!!! Characters only PLEASEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!");
+			    return menuGetInput(options, haveSomethingtoPrint, charOrInt);
+			}
+			return response;
+		} else {
+			throw new IllegalArgumentException("MenuGetInput charOrInt must be 0 or 1");
+		}
+	}
+	
+	public boolean ynToBool(char yn) {
+		if (yn == 'Y' || yn == 'y') {
+			return true;
+		} else if (yn == 'N' || yn == 'n') {
+			return false;
+		} else {
+			throw new IllegalArgumentException("Invalid response");
+		}
+	}
+	
+	public void showMyHeroes() {
+		System.out.println("You have the following heroes:\n" + team.toString());
+	}
+	
+	public boolean isThereMonster() { //double monsterChance) { //TODO: make it not hardcoded
+		Random r = new Random();
+		double random =  + r.nextDouble();
+		double monsterChance = 0.3;
+		if (random < monsterChance) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static int indexxof(String[] list, String a) {
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].equals(a)) return i;
+		}
+		return 0;
+	}
+}

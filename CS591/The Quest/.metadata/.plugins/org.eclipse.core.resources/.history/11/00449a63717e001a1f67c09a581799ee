@@ -1,0 +1,315 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+public class QolGamelogic extends Gamelogic{
+	static QolBoard myBoard;
+ 	static Team newTeam;
+	boolean[] hasMoved = {false, false, false};
+	
+	boolean quitting = false;
+	int round = 0;
+	int currMaxLevel = 1;
+	
+	QolGamelogic() {
+		super();
+		team = new Team(3);
+	}
+	
+	public static void main(String[] args) {
+		QolGamelogic myGame = new QolGamelogic();
+ 		myGame.startGame();
+	}
+	
+	
+	
+	@Override
+	public void startGame() {
+		System.out.println("Welcome to Quest of Legends. Start by picking your heroes");
+		//more info, instructions, etc.
+		for (int i = 0; i < 3; i++) {
+			System.out.println("Pick hero #" + (i+1));
+			if(pickHeroUI() == -100) {
+				quitting = true;
+				break;
+			}
+			
+		}
+		if (quitting == true) {
+			System.out.println("You chose not to play");
+		} else {
+			// initialize team, then initialize board
+			newTeam = team;
+			myBoard = new QolBoard(newTeam);
+			System.out.println();
+			myBoard.printLegendBoard();
+
+			gamePlay();
+		}
+	}
+	public int getMaxLevel() {
+		int res = 0;
+		for (int i = 0; i < team.numHeroes(); i++) {
+			int x = newTeam.getHero(i).getLevel();
+			if (x >= res) {
+				res = x;
+			}
+		}
+		return res;
+	}
+	public boolean allMovesMade() { //returns whether every hero has made their move or not
+		for (boolean b : hasMoved) {
+			if (!b) return false; //not every hero has made their move
+		}
+		return true; //every hero has made their move
+	}
+	
+	public void resetHasMoved() {
+		 boolean[] newArr = {false, false, false};
+		 hasMoved = newArr;
+	}
+	
+	@Override
+	public void gamePlay() {
+		int count = 0
+		while (continueGame) {
+			while (!allMovesMade()) {
+				System.out.println("\nRound: "+round);
+				System.out.println("Which hero do you want to move?");
+				//public static Object menuGetInput(String[] options, boolean haveSomethingtoPrint, int charOrInt) {
+				String[] toPrint = {"0. Finish Round", team.toString()};
+				int response = (int) menuGetInput(toPrint, true, 1);
+				
+				if (response == 0) {
+					break;
+				} else if (response >= 4) {
+					System.out.println("Out of range input! Try again.");
+					gamePlay();
+					return;
+				} else  if (hasMoved[response-1] == false) { //hero hasn't made its move this turn; can make move
+					Hero chosenHero = team.getHero(response-1);
+					team.changeActiveHero(response-1);
+					System.out.println();
+					heroAction(chosenHero);
+					if(inEnemyNexus(chosenHero)) {
+						continueGame = false;
+						break;
+					}
+				} else { //has already made move; can't make any more moves
+					System.out.println(team.getHero(response-1).getName() + " has already made their move this turn!");
+				}
+			}
+			for (Monster m : myBoard.getMonsters().getMonsterList()) {
+				//if there is a hero nearby, then attack it
+				//else, move 1 grid downwards
+				int damage = m.getAttackDamage();
+				int[] monsterPos = myBoard.getEntityPosition(m);
+				ArrayList<Entity> nearbyHeroes= myBoard.getAdjacentCreature(monsterPos[0], monsterPos[1], 1);
+				Random rand = new Random();
+				Hero chosenHero;
+				try {
+					chosenHero = (Hero)nearbyHeroes.get(rand.nextInt(nearbyHeroes.size()));
+				} catch (IllegalArgumentException e) {
+					// TODO: handle exception
+					myBoard.makeMove('s', m, 1);
+					if(inEnemyNexus(m)) {
+						continueGame = false;
+						break;
+					}
+					continue;
+				}
+				
+				System.out.printf("%s is attacking %s", m.getName(), chosenHero.getName());
+				int[] currPos = myBoard.getEntityPosition(chosenHero);
+				int type = myBoard.getTileType(currPos[0], currPos[1]);
+				chosenHero.getAttacked(damage, type);
+			}
+			for (int i = 0; i < team.numHeroes(); i++) {
+				Hero curHero = team.getHero(i);
+				if (team.getHero(i).isDead()) {
+					myBoard.teleport(curHero, 7, i*3);
+					curHero.revive();
+				} else {
+					curHero.endOfRound();
+				}
+				System.out.println("\n Hero Stat after the round:");
+				System.out.println("\n"+team.getHero(i));
+			}
+			resetHasMoved(); //make every element in HasMoved false, for the new round
+			currMaxLevel = getMaxLevel();
+			System.out.println();
+			myBoard.printLegendBoard();
+			round++;
+			if()
+		}
+	}
+	
+	public void heroAction(Hero h) { //after a hero has been picked, choose an action for the hero
+		//maybe display a list of attackable monsters. Then if player chooses to fight when there are no monsters, just say invalid input
+		String[] toPrint = {"0. Exit", "1. Move", "2. Fight", "3. Drink Potion", "4. Change Armor", "5. Change Weapon", "6. Enter Market", "7. Teleport"}; //TODO: map, inventory, etc.
+		int response = (int) menuGetInput(toPrint, true, 1);
+		int[] currPos = myBoard.getEntityPosition(h);
+		int type = myBoard.getTileType(currPos[0], currPos[1]);
+		
+		if (response == 0) {
+			return;
+		} else if (response == 1) {
+			System.out.println("In which direction would you like to move?");
+			char direction = (char) menuGetInput(null, false, 0);
+			if(myBoard.makeMove(direction, h, 0)== null) {
+				System.out.println("Invalid move!!");
+				heroAction(h);
+				return;
+			} else {
+				hasMoved[team.getHeroIndex(h)] = true;
+			}
+		} else if (response == 2) {
+			if(chooseMonster(h)) {
+				hasMoved[team.getHeroIndex(h)] = true;
+			} else {
+				heroAction(h);
+				return;
+			}
+		} else if (response == 3) {
+			if(drinkPotion(h)) {
+				hasMoved[team.getHeroIndex(h)] = true;
+			} else {
+				heroAction(h);
+				return;
+			}
+		} else if (response == 4) {
+			if(h.changeArmor()) {
+				hasMoved[team.getHeroIndex(h)] = true;
+			} else {
+				heroAction(h);
+				return;
+			}
+		} else if (response == 5) {
+			if(h.changeWeapon()) {
+				hasMoved[team.getHeroIndex(h)] = true;
+			} else {
+				heroAction(h);
+				return;
+			}
+		} else if (response == 6) {
+			TileSpace position = myBoard.getTile(currPos[0], currPos[1]);
+			if (type == 4) {
+				if (trade(((QolTile)position).getMarket(), h)) {
+					hasMoved[team.getHeroIndex(h)] = true;
+				} else {
+					heroAction(h);
+					return;
+				}
+			} else {
+				System.out.println("Cannot access market");
+				heroAction(h);
+				return;
+			}
+		} else if (response == 7) {
+			System.out.println("Where would you like to teleport?");
+			System.out.println("Enter inputs respective to their tile space");
+			System.out.println("Cannot teleport to X(inaccessbile) tiles");
+			//get inputs from users
+			System.out.println("Enter column value");
+			System.out.println("0 to 7 from left to right");
+			String[] indexToPrint = {"0. 0", "1. 1", "2. 2", "3. 3", "4. 4", "5. 5", "6. 6", "7. 7"};
+			int col = (int) menuGetInput(indexToPrint, true, 1);
+			System.out.println("Enter row value");
+			System.out.println("0 to 7 from top to bottom");
+			int row = (int) menuGetInput(indexToPrint, true, 1);
+			if (!myBoard.teleport(h, row, col)) {
+				System.out.println("Unsuccessful teleport");
+				heroAction(h);
+				return;
+			} else {
+				hasMoved[team.getHeroIndex(h)] = true;
+			}
+		}  else {
+			System.out.println("Invalid input! Try again.");
+			heroAction(h); //make the player input again in case of invalid inputs
+		}
+	}
+	
+	public boolean chooseMonster(Hero h) { //for a hero, choose one of the nearby monsters to attack
+		//print list of nearby monsters
+		int[] heroPos = myBoard.getEntityPosition(h);
+		ArrayList<Entity> nearbyMonsters = myBoard.getAdjacentCreature(heroPos[0], heroPos[1], -1);
+		System.out.println("Which monster would you like to attack?");
+		String[] options = new String[nearbyMonsters.size() + 1];
+		options[0] = "0. Exit";
+		for (int i = 1; i < nearbyMonsters.size() + 1; i++) {
+			options[i] = i + ". " + nearbyMonsters.get(i-1).toString();
+		}
+		int response = (int) menuGetInput(options, true, 1);
+		
+		//input validation
+		if (response >= 0 && response <= nearbyMonsters.size() + 1) {
+			if (response == 0) {
+				return false; //is this the right exit?
+			} else {
+				if(nearbyMonsters.size() == 0) {
+					System.out.println("No available monsters!");
+					return false;
+				} else {
+					System.out.println("You are attacking " + nearbyMonsters.get(response - 1).getName());
+					attackMonster(h, (Monster)nearbyMonsters.get(response - 1));
+				}
+			
+			}
+		} else {
+			System.out.println("Invalid input! Try again.");
+			return chooseMonster(h);
+		}
+		//after fight, set hasMoved to true
+		return true;
+	}
+	
+	public boolean inEnemyNexus(Entity e) { //0 for hero and 1 for monster
+		int[] curPos = myBoard.getEntityPosition(e);
+		if(e instanceof Hero && curPos[0] == 0) {
+			System.out.println("You Win!!\n");
+			return true;
+		} else if (e instanceof Monster && curPos[0] == 7) {
+			System.out.println("You Lose!!");
+			return true;
+		} else {
+			return false;			
+		}
+	}
+	
+	public void attackMonster(Hero h, Monster m) { //once a nearby monster has been chosen, let player choose action for monster
+		//is an exit option allowed here?
+		String[] options = {"0. Exit", "1. Attack", "2. Use Spell", "3. Drink Potion", "4. Change Weapon", "5. Change Armor"};
+		int response = (int) menuGetInput(options, true, 1);
+		int[] currPos = myBoard.getEntityPosition(h);
+		int type = myBoard.getTileType(currPos[0], currPos[1]);
+		if (response >= 0 && response < options.length) {
+			if (response == 0) {
+				return; //is this the right exit?
+			} else if (response == 1) {
+				attack(h, m, type);
+				hasMoved[team.getHeroIndex(h)] = true;
+			} else if (response == 2) {
+				Spell spell = chooseSpell();
+				if (spell == null) {
+					return;
+				} else {
+					useSpell(h, m, spell, type);
+					hasMoved[team.getHeroIndex(h)] = true;
+				}
+			} else if (response == 3) {
+				drinkPotion(h);
+				//does drinking potion count as a round? if yes, set corresponding hasMoved index to true, then return
+			} else if (response == 4) {
+				h.changeWeapon();
+				//attackMonster(h, m) if this doesn't count as a round.
+			} else if (response == 5) {
+				h.changeArmor();
+			}
+		} else {
+			System.out.println("Invalid input! Try again.");
+			attackMonster(h, m);
+			return;
+		}
+	}
+	
+}

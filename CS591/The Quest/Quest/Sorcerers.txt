@@ -1,0 +1,5 @@
+Name/mana/strength/agility/dexterity/starting money/starting experience
+Garl_Glittergold        700     12000     600   500     2500    20
+Rillifane_Rallathil     1300    12000     450   500     2500    20
+Segojan_Earthcaller     900     12000     500   650     2500    20
+Skoraeus_Stonebones     800     12000     600   450     2500    20

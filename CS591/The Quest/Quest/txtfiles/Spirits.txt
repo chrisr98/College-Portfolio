@@ -1,0 +1,4 @@
+Name/level/damage/defense/dodge chance
+Andrealphus     2       600       500     40Aim-Haborym     1       450       350     35Andromalius     3       550       450     25Chiang-shih     4       700       600     40FallenAngel     5       800       700     50Ereshkigall     6       950       450     35
+Melchiresas     7       350       150     75Jormunngand     8       600       900     20
+Rakkshasass     9       550       600     35Taltecuhtli     10      300       200     50

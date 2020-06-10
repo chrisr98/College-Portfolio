@@ -1,0 +1,5 @@
+Name/mana/strength/agility/dexterity/starting money/starting experience
+Solonor_Thelandira   300     13000     650     700     2500    9
+Sehanine_Moonbow     300     12000     700     700     2500    9
+Skoraeus_Stonebones  250     12000     600     350     2500    9
+Garl_Glittergold     100     12000     500     400     2500    9
